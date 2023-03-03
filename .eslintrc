@@ -1,0 +1,63 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "warn",
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/vite.config.ts"
+        ],
+        "peerDependencies": false
+      }
+    ],
+    "import/no-unresolved": "off",
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "error",
+          "warn"
+        ]
+      }
+    ],
+    "no-use-before-define": "off", // https://github.com/typescript-eslint/typescript-eslint/issues/2540
+    "react/function-component-definition": "off",
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "no-restricted-exports": "off"
+  }
+}
