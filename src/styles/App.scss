@@ -20,6 +20,18 @@
       border: none;
       border-radius: 50%;
       opacity: 1;
+
+      &.is-active {
+        box-shadow: 0px 0px 20px 6px #ffb700;
+      }
+
+      &.is-muted {
+        background-color: #a1a1a1;
+        &.is-active {
+          border: 2px solid #ffb700;
+          box-shadow: none;
+        }
+      }
     }
   }
 
