@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '@/styles/App.scss';
 import Pointer from '@/components/Pointer';
 import BPMController from '@/components/BPMController';
+import TempoSelector from '@/components/TempoSelector';
 
 type PointerStatus = {
   isActive: boolean;
@@ -15,7 +16,6 @@ const initPointerStatusData = () => {
 function App() {
   const [isLaunch, setIsLaunch] = useState(false);
   const [bpm, setBpm] = useState(60);
-  const [tempo, setTempo] = useState(1);
   const [pointerStatus, setPointerStatus] = useState<PointerStatus[]>(initPointerStatusData());
   const [clickInterval, setClickInterval] = useState<NodeJS.Timer | null>(null);
   const [nextClick, setNextClick] = useState(0);
@@ -76,27 +76,21 @@ function App() {
   const changeBpm = (value: string) => {
     setBpm(Number(value));
 
+    // FIXME: bpmが古いままsetされる
     if (clickInterval) {
       clearInterval(clickInterval);
       setClickIntervalExec(nextClick);
     }
-
-    let result = 2;
-    if (bpm < 77) {
-      result = 1;
-    }
-    setTempo(result);
   };
 
   const changeTempo = (value: string) => {
-    let result = 0;
-    setTempo(Number(value));
-    if (tempo === 1) {
-      result = 60;
-    } else if (tempo === 2) {
-      result = 77;
+    setBpm(Number(value));
+
+    // FIXME: bpmが古いままsetされる
+    if (clickInterval) {
+      clearInterval(clickInterval);
+      setClickIntervalExec(nextClick);
     }
-    setBpm(result);
   };
 
   return (
@@ -116,17 +110,8 @@ function App() {
         </div>
 
         <BPMController bpm={bpm} onChange={changeBpm} />
+        <TempoSelector bpm={bpm} onChange={changeTempo} />
 
-        <div className="metronome__tempo">
-          <select className="metronome__tempo-select" name="" id="" onChange={(e) => changeTempo(e.target.value)}>
-            <option value="1" selected={tempo === 1}>
-              andante
-            </option>
-            <option value="2" selected={tempo === 2}>
-              andantino
-            </option>
-          </select>
-        </div>
         <button type="button" className="metronome__launch-button" onClick={launch}>
           {isLaunch ? 'ストップ' : 'スタート'}
         </button>
