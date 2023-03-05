@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import '@/styles/App.scss';
-import Pointer from '@/components/Pointer';
+import Pointer, { PointerSetting } from '@/components/Pointer';
 import BPMController from '@/components/BPMController';
 import TempoSelector from '@/components/TempoSelector';
 
 type PointerStatus = {
   isActive: boolean;
-  isMuted: boolean;
+  setting: PointerSetting;
 };
 
-const initPointerStatusData = () => {
-  return Array.from({ length: 4 }, () => ({ isActive: false, isMuted: false }));
+const initPointerStatusData = (): PointerStatus[] => {
+  return Array.from({ length: 4 }, () => ({ isActive: false, setting: 'USUAL' }));
 };
 
 function App() {
@@ -27,7 +27,12 @@ function App() {
     if (!newIsLaunch && clickInterval) {
       clearInterval(clickInterval);
       setClickInterval(null);
-      setPointerStatus(initPointerStatusData());
+      setPointerStatus(
+        pointerStatus.map((v) => ({
+          isActive: false,
+          setting: v.setting,
+        })),
+      );
       return;
     }
     setNextClick(0);
@@ -49,8 +54,14 @@ function App() {
     const newState = [...pointerStatus];
     newState[i].isActive = true;
 
-    if (!pointerStatus[i].isMuted) {
-      // TODO:音を鳴らす
+    switch (pointerStatus[i].setting) {
+      case 'USUAL':
+        // TODO:普通の音を鳴らす
+        break;
+      case 'ACCENT':
+        // TODO:目立つ音を鳴らす
+        break;
+      default:
     }
 
     newState[i === 0 ? 3 : i - 1].isActive = false;
@@ -69,7 +80,20 @@ function App() {
 
   const clickPoint = (index: number) => {
     const newState = [...pointerStatus];
-    newState[index].isMuted = !pointerStatus[index].isMuted;
+
+    switch (pointerStatus[index].setting) {
+      case 'USUAL':
+        newState[index].setting = 'ACCENT';
+
+        break;
+      case 'ACCENT':
+        setPointerStatus(newState);
+        newState[index].setting = 'MUTED';
+        break;
+      default:
+        newState[index].setting = 'USUAL';
+    }
+
     setPointerStatus(newState);
   };
 
@@ -103,7 +127,7 @@ function App() {
               key={i}
               index={i}
               isActive={pointerStatus[i].isActive}
-              isMuted={pointerStatus[i].isMuted}
+              setting={pointerStatus[i].setting}
               onClick={clickPoint}
             />
           ))}

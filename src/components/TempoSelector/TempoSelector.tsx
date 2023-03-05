@@ -20,12 +20,16 @@ const tempoMarkList: tempoMark[] = [
 ];
 
 function TempoSelector({ bpm, onChange }: Props) {
-  const isApply = (min: number, max: number) => min <= bpm && bpm <= max;
+  const getTempoMark = () => tempoMarkList.find((v) => v.min <= bpm && bpm <= v.max)?.min;
   return (
     <div className="metronome__tempo">
-      <select className="metronome__tempo-select" name="" id="" onChange={(e) => onChange(e.target.value)}>
+      <select
+        className="metronome__tempo-select"
+        defaultValue={getTempoMark()}
+        onChange={(e) => onChange(e.target.value)}
+      >
         {tempoMarkList.map((v) => (
-          <option key={v.name} value={v.min} selected={isApply(v.min, v.max)}>
+          <option key={v.name} value={v.min}>
             {v.name}
           </option>
         ))}
