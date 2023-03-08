@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import '@/styles/App.scss';
+import React, { useRef, useState } from 'react';
 import Pointer, { PointerSetting } from '@/components/Pointer';
 import BPMController from '@/components/BPMController';
 import TempoSelector from '@/components/TempoSelector';
+import AppStyle from '@/styles/App.module.scss';
 
 type PointerStatus = {
   isActive: boolean;
@@ -16,6 +16,7 @@ const initPointerStatusData = (): PointerStatus[] => {
 function App() {
   const [isLaunch, setIsLaunch] = useState(false);
   const [bpm, setBpm] = useState(60);
+  const refBpm = useRef(bpm);
   const [pointerStatus, setPointerStatus] = useState<PointerStatus[]>(initPointerStatusData());
   const [clickInterval, setClickInterval] = useState<NodeJS.Timer | null>(null);
   const [nextClick, setNextClick] = useState(0);
@@ -46,7 +47,7 @@ function App() {
         flashing(i);
         i = i === 3 ? 0 : i + 1;
         setNextClick(i);
-      }, (60 / bpm) * 1000),
+      }, (60 / refBpm.current) * 1000),
     );
   };
 
@@ -98,7 +99,8 @@ function App() {
   };
 
   const changeBpm = (value: string) => {
-    setBpm(Number(value));
+    refBpm.current = Number(value);
+    setBpm(refBpm.current);
 
     // FIXME: bpmが古いままsetされる
     if (clickInterval) {
@@ -108,7 +110,8 @@ function App() {
   };
 
   const changeTempo = (value: string) => {
-    setBpm(Number(value));
+    refBpm.current = Number(value);
+    setBpm(refBpm.current);
 
     // FIXME: bpmが古いままsetされる
     if (clickInterval) {
@@ -119,8 +122,8 @@ function App() {
 
   return (
     <div>
-      <div className="metronome">
-        <div className="metronome__click">
+      <div className={AppStyle.metronome}>
+        <div className={AppStyle.metronome__click}>
           {pointerStatus.map((v, i) => (
             <Pointer
               // eslint-disable-next-line react/no-array-index-key
@@ -136,7 +139,7 @@ function App() {
         <BPMController bpm={bpm} onChange={changeBpm} />
         <TempoSelector bpm={bpm} onChange={changeTempo} />
 
-        <button type="button" className="metronome__launch-button" onClick={launch}>
+        <button type="button" className={AppStyle['metronome__launch-button']} onClick={launch}>
           {isLaunch ? 'ストップ' : 'スタート'}
         </button>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import AppStyle from '@/styles/App.module.scss';
 
 type Props = {
   bpm: number;
@@ -7,17 +8,17 @@ type Props = {
 
 function BPMController({ bpm, onChange }: Props) {
   return (
-    <div className="metronome__bpm">
-      <button type="button" className="metronome__bpm-button">
+    <div className={AppStyle.metronome__bpm}>
+      <button type="button" className={AppStyle['metronome__bpm-button']}>
         −
       </button>
       <input
-        className="metronome__bpm-input"
+        className={AppStyle['metronome__bpm-input']}
         type="number"
         value={bpm}
         onChange={(event) => onChange(event.target.value)}
       />
-      <button type="button" className="metronome__bpm-button">
+      <button type="button" className={AppStyle['metronome__bpm-button']}>
         ＋
       </button>
     </div>

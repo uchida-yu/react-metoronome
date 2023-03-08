@@ -4,7 +4,6 @@
   margin: auto;
   background-color: #a4bbf7;
   border-radius: 8px;
-
   &__click {
     display: flex;
     gap: 20px;
@@ -34,7 +33,7 @@
           font-size: 20px;
           font-weight: bold;
           color: #7a7465;
-          content: '>';
+          content: '∧';
           transform: translate(-50%, -50%);
         }
       }

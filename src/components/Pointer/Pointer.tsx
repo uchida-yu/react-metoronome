@@ -1,4 +1,5 @@
 import React from 'react';
+import AppStyle from '@/styles/App.module.scss';
 
 export type PointerSetting = 'USUAL' | 'ACCENT' | 'MUTED';
 
@@ -10,19 +11,19 @@ type Props = {
 };
 
 function Click({ index, isActive, setting, onClick }: Props) {
-  const activeClass = isActive ? 'is-active' : '';
+  const activeClass = isActive ? AppStyle['is-active'] : '';
 
   let settingClass = '';
   if (setting === 'MUTED') {
-    settingClass = 'is-muted';
+    settingClass = AppStyle['is-muted'];
   } else if (setting === 'ACCENT') {
-    settingClass = 'is-accent';
+    settingClass = AppStyle['is-accent'];
   }
 
   return (
     <button
       type="button"
-      className={`metronome__click-point ${activeClass} ${settingClass}`}
+      className={`${AppStyle['metronome__click-point']} ${activeClass} ${settingClass}`}
       onClick={() => onClick(index)}
     >
       {' '}

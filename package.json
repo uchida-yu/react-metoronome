@@ -36,6 +36,7 @@
     "stylelint-prettier": "^2.0.0",
     "stylelint-scss": "^4.4.0",
     "typescript": "^4.9.5",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vite-plugin-sass-dts": "^1.2.16"
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import AppStyle from '@/styles/App.module.scss';
 
 type Props = {
   bpm: number;
@@ -22,9 +23,9 @@ const tempoMarkList: tempoMark[] = [
 function TempoSelector({ bpm, onChange }: Props) {
   const getTempoMark = () => tempoMarkList.find((v) => v.min <= bpm && bpm <= v.max)?.min;
   return (
-    <div className="metronome__tempo">
+    <div className={AppStyle.metronome__tempo}>
       <select
-        className="metronome__tempo-select"
+        className={AppStyle['metronome__tempo-select']}
         defaultValue={getTempoMark()}
         onChange={(e) => onChange(e.target.value)}
       >
