@@ -13,6 +13,24 @@ const initPointerStatusData = (): PointerStatus[] => {
   return Array.from({ length: 4 }, () => ({ isActive: false, setting: 'USUAL' }));
 };
 
+const audioCtx = new window.AudioContext();
+const makeSound = (type: PointerSetting) => {
+  if (type === 'MUTED') {
+    return;
+  }
+
+  const oscillator = audioCtx.createOscillator();
+  oscillator.type = 'triangle';
+  oscillator.frequency.setValueAtTime(type === 'USUAL' ? 900 : 1200, audioCtx.currentTime);
+  oscillator.connect(audioCtx.destination);
+  oscillator.start(audioCtx.currentTime);
+  oscillator.stop(audioCtx.currentTime + 0.04);
+};
+
+const mute = () => {
+  // TODO: ミュートする
+};
+
 function App() {
   const [isLaunch, setIsLaunch] = useState(false);
   const [bpm, setBpm] = useState(60);
@@ -25,6 +43,7 @@ function App() {
     const newIsLaunch = !isLaunch;
 
     setIsLaunch(newIsLaunch);
+
     if (!newIsLaunch && clickInterval) {
       clearInterval(clickInterval);
       setClickInterval(null);
@@ -44,26 +63,17 @@ function App() {
     let i = startPoint;
     setClickInterval(
       setInterval(() => {
-        flashing(i);
+        execClicking(i);
         i = i === 3 ? 0 : i + 1;
         setNextClick(i);
       }, (60 / refBpm.current) * 1000),
     );
   };
 
-  const flashing = (i: number) => {
+  const execClicking = (i: number) => {
     const newState = [...pointerStatus];
     newState[i].isActive = true;
-
-    switch (pointerStatus[i].setting) {
-      case 'USUAL':
-        // TODO:普通の音を鳴らす
-        break;
-      case 'ACCENT':
-        // TODO:目立つ音を鳴らす
-        break;
-      default:
-    }
+    makeSound(pointerStatus[i].setting);
 
     newState[i === 0 ? 3 : i - 1].isActive = false;
     setPointerStatus(newState);
@@ -75,17 +85,16 @@ function App() {
       setClickInterval(null);
     }
 
-    flashing(0);
+    execClicking(0);
     setClickIntervalExec(1);
   };
 
-  const clickPoint = (index: number) => {
+  const changePointerSetting = (index: number) => {
     const newState = [...pointerStatus];
 
     switch (pointerStatus[index].setting) {
       case 'USUAL':
         newState[index].setting = 'ACCENT';
-
         break;
       case 'ACCENT':
         setPointerStatus(newState);
@@ -102,7 +111,6 @@ function App() {
     refBpm.current = Number(value);
     setBpm(refBpm.current);
 
-    // FIXME: bpmが古いままsetされる
     if (clickInterval) {
       clearInterval(clickInterval);
       setClickIntervalExec(nextClick);
@@ -113,7 +121,6 @@ function App() {
     refBpm.current = Number(value);
     setBpm(refBpm.current);
 
-    // FIXME: bpmが古いままsetされる
     if (clickInterval) {
       clearInterval(clickInterval);
       setClickIntervalExec(nextClick);
@@ -131,7 +138,7 @@ function App() {
               index={i}
               isActive={pointerStatus[i].isActive}
               setting={pointerStatus[i].setting}
-              onClick={clickPoint}
+              onClick={changePointerSetting}
             />
           ))}
         </div>
