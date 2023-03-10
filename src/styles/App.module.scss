@@ -52,11 +52,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
     &-button {
+      padding: 2px;
       font-size: 26px;
-      background-color: transparent;
+      color: #ffffff;
+      background-color: #f56400;
       border: none;
+      border-radius: 8px;
     }
     &-input {
       width: 100%;
@@ -69,6 +72,7 @@
 
   &__tempo {
     padding-top: 10px;
+    margin-top: 10px;
     text-align: center;
     border-top: 1px solid #414141;
 
@@ -78,13 +82,16 @@
     }
   }
 
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
   &__launch-button {
-    width: 100%;
-    padding: 10px 8px;
-    margin-top: 10px;
+    padding: 20px;
     color: #ffffff;
     background-color: #008bf5;
     border: 1px solid #008bf5;
-    border-radius: 8px;
+    border-radius: 50%;
   }
 }

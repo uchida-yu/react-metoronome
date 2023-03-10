@@ -11,6 +11,7 @@ declare const classNames: typeof globalClassNames & {
   readonly 'metronome__bpm-input': 'metronome__bpm-input';
   readonly metronome__tempo: 'metronome__tempo';
   readonly 'metronome__tempo-select': 'metronome__tempo-select';
+  readonly 'metronome__button-container': 'metronome__button-container';
   readonly 'metronome__launch-button': 'metronome__launch-button';
 };
 export = classNames;

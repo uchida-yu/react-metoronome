@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Play, Stop } from '@phosphor-icons/react';
 import Pointer, { PointerSetting } from '@/components/Pointer';
 import BPMController from '@/components/BPMController';
 import TempoSelector from '@/components/TempoSelector';
@@ -9,8 +11,13 @@ type PointerStatus = {
   setting: PointerSetting;
 };
 
-const initPointerStatusData = (): PointerStatus[] => {
-  return Array.from({ length: 4 }, () => ({ isActive: false, setting: 'USUAL' }));
+const examplePointerStatusData = (): PointerStatus[] => {
+  return [
+    { isActive: false, setting: 'ACCENT' },
+    { isActive: false, setting: 'USUAL' },
+    { isActive: false, setting: 'MUTED' },
+    { isActive: false, setting: 'USUAL' },
+  ];
 };
 
 const audioCtx = new window.AudioContext();
@@ -35,7 +42,7 @@ function App() {
   const [isLaunch, setIsLaunch] = useState(false);
   const [bpm, setBpm] = useState(60);
   const refBpm = useRef(bpm);
-  const [pointerStatus, setPointerStatus] = useState<PointerStatus[]>(initPointerStatusData());
+  const [pointerStatus, setPointerStatus] = useState<PointerStatus[]>(examplePointerStatusData());
   const [clickInterval, setClickInterval] = useState<NodeJS.Timer | null>(null);
   const [nextClick, setNextClick] = useState(0);
 
@@ -108,7 +115,15 @@ function App() {
   };
 
   const changeBpm = (value: string) => {
-    refBpm.current = Number(value);
+    let newBpm = Number(value);
+
+    if (newBpm < 10) {
+      newBpm = 10;
+    } else if (newBpm > 300) {
+      newBpm = 300;
+    }
+
+    refBpm.current = newBpm;
     setBpm(refBpm.current);
 
     if (clickInterval) {
@@ -143,12 +158,13 @@ function App() {
           ))}
         </div>
 
-        <BPMController bpm={bpm} onChange={changeBpm} />
+        <BPMController bpm={bpm} changeBpm={changeBpm} />
         <TempoSelector bpm={bpm} onChange={changeTempo} />
-
-        <button type="button" className={AppStyle['metronome__launch-button']} onClick={launch}>
-          {isLaunch ? 'ストップ' : 'スタート'}
-        </button>
+        <div className={AppStyle['metronome__button-container']}>
+          <button type="button" className={AppStyle['metronome__launch-button']} onClick={launch}>
+            {isLaunch ? <Stop size={60} /> : <Play size={60} />}
+          </button>
+        </div>
       </div>
     </div>
   );
