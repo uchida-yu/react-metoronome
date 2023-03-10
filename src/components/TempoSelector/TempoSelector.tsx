@@ -17,7 +17,7 @@ const tempoMarkList: tempoMark[] = [
   { name: 'Lento', min: 50, max: 55 },
   { name: 'Adagio', min: 56, max: 62 },
   { name: 'Andante', min: 63, max: 75 },
-  { name: 'Moderato', min: 63, max: 95 },
+  { name: 'Moderato', min: 76, max: 95 },
 ];
 
 function TempoSelector({ bpm, onChange }: Props) {
