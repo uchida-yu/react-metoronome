@@ -18,8 +18,8 @@ function BPMController({ bpm, changeBpm }: Props) {
         className={AppStyle['metronome__bpm-input']}
         type="number"
         value={bpm}
-        min="10"
-        max="300"
+        min="1"
+        max="500"
         onChange={(event) => changeBpm(event.target.value)}
       />
       <button type="button" className={AppStyle['metronome__bpm-button']} onClick={() => changeBpm(String(bpm + 1))}>

@@ -117,10 +117,10 @@ function App() {
   const changeBpm = (value: string) => {
     let newBpm = Number(value);
 
-    if (newBpm < 10) {
-      newBpm = 10;
-    } else if (newBpm > 300) {
-      newBpm = 300;
+    if (newBpm < 1) {
+      newBpm = 1;
+    } else if (newBpm > 500) {
+      newBpm = 500;
     }
 
     refBpm.current = newBpm;
