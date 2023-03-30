@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Plus, Minus } from '@phosphor-icons/react';
 import AppStyle from '@/styles/App.module.scss';
+import { AppContext } from '@/hooks/useAppProvider';
 
-type Props = {
-  bpm: number;
-  changeBpm: (value: string) => void;
-};
-
-function BPMController({ bpm, changeBpm }: Props) {
+function BPMController() {
+  const { bpm, changeBpm } = useContext(AppContext);
   return (
     <div className={AppStyle.metronome__bpm}>
       <button type="button" className={AppStyle['metronome__bpm-button']} onClick={() => changeBpm(String(bpm - 1))}>

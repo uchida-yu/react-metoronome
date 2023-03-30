@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppStyle from '@/styles/App.module.scss';
-
-type Props = {
-  bpm: number;
-  onChange: (value: string) => void;
-};
+import { AppContext } from '@/hooks/useAppProvider';
 
 type tempoMark = {
   name: string;
@@ -20,14 +16,15 @@ const tempoMarkList: tempoMark[] = [
   { name: 'Moderato', min: 76, max: 95 },
 ];
 
-function TempoSelector({ bpm, onChange }: Props) {
+function TempoSelector() {
+  const { bpm, changeBpm } = useContext(AppContext);
   const getTempoMark = () => tempoMarkList.find((v) => v.min <= bpm && bpm <= v.max)?.min;
   return (
     <div className={AppStyle.metronome__tempo}>
       <select
         className={AppStyle['metronome__tempo-select']}
         defaultValue={getTempoMark()}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => changeBpm(e.target.value)}
       >
         {tempoMarkList.map((v) => (
           <option key={v.name} value={v.min}>
