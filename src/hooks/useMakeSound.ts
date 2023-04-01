@@ -1,9 +1,4 @@
-import React, { createContext, ReactNode, useMemo } from 'react';
 import { PointerSetting } from '@/hooks/usePointerProvider';
-
-type Props = {
-  children: ReactNode;
-};
 
 const frequencies: Record<PointerSetting, number | null> = {
   ACCENT: 1200,
@@ -14,7 +9,7 @@ const frequencies: Record<PointerSetting, number | null> = {
 // sound
 const audioCtx = new window.AudioContext();
 
-const makeSound = (setting: PointerSetting) => {
+const useMakeSound = (setting: PointerSetting) => {
   const frequency = frequencies[setting];
 
   if (!frequency) {
@@ -29,15 +24,4 @@ const makeSound = (setting: PointerSetting) => {
   oscillator.stop(audioCtx.currentTime + 0.04);
 };
 
-export const PlayContext = createContext<{
-  makeSound: (setting: PointerSetting) => void;
-}>({
-  makeSound: () => {
-    throw Error('setIsPlay not set');
-  },
-});
-
-export function PlayerProvider({ children }: Props) {
-  const memo = useMemo(() => ({ makeSound }), []);
-  return <PlayContext.Provider value={memo}>{children}</PlayContext.Provider>;
-}
+export default useMakeSound;
