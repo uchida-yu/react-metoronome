@@ -21,7 +21,8 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "prettier"
+    "prettier",
+    "react-hooks"
   ],
   "rules": {
     "prettier/prettier": "warn",
@@ -58,6 +59,12 @@
         ]
       }
     ],
-    "no-restricted-exports": "off"
+    "no-restricted-exports": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn", {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ]
   }
 }
