@@ -2,6 +2,7 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import sassDts from 'vite-plugin-sass-dts';
+import checker from 'vite-plugin-checker';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,6 +34,9 @@ export default defineConfig({
         generate: true,
         outFile: path.resolve(__dirname, './src/styles/style.d.ts'),
       },
+    }),
+    checker({
+      typescript: true,
     }),
   ],
   resolve: {
