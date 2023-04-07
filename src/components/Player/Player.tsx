@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Play, Stop } from '@phosphor-icons/react';
 import AppStyle from '@/styles/App.module.scss';
-import useMakeSound from '@/hooks/useMakeSound';
+import makeSound from '@/core/Sound/makeSound';
 import { AppContext } from '@/hooks/useAppProvider';
 import { PointerContext, PointerStatus } from '@/hooks/usePointerProvider';
 
@@ -18,7 +18,7 @@ function Player() {
     if (active !== refActive.current) {
       const setting = pointerStatus.find((v) => v.isActive)?.setting;
       if (setting) {
-        useMakeSound(setting);
+        makeSound(setting);
       }
       refActive.current = active;
     }

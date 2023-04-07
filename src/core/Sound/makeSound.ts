@@ -1,4 +1,4 @@
-import { PointerSetting } from '@/hooks/usePointerProvider';
+import type { PointerSetting } from '@/hooks/usePointerProvider';
 
 const frequencies: Record<PointerSetting, number | null> = {
   ACCENT: 1200,
@@ -9,7 +9,7 @@ const frequencies: Record<PointerSetting, number | null> = {
 // sound
 const audioCtx = new window.AudioContext();
 
-const useMakeSound = (setting: PointerSetting) => {
+const makeSound = (setting: PointerSetting) => {
   const frequency = frequencies[setting];
 
   if (!frequency) {
@@ -24,4 +24,4 @@ const useMakeSound = (setting: PointerSetting) => {
   oscillator.stop(audioCtx.currentTime + 0.04);
 };
 
-export default useMakeSound;
+export default makeSound;
